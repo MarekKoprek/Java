@@ -5,6 +5,7 @@
 </head>
 <body>
 <h1>Add a Person</h1>
+<h4 th:if="${success}" th:text="${success}" style="color: green;"></h4>
 <form th:action="@{/addPerson}" th:object="${person}" method="post">
     <label for="firstName">Imię:</label>
     <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required>
@@ -19,11 +20,14 @@
     <label for="pesel">PESEL:</label>
     <input type="text" id="pesel" name="pesel" th:field="*{peselNumber}" required>
     <span th:if="${#fields.hasErrors('peselNumber')}" th:errors="*{peselNumber}" style="color:red"></span>
+    <span th:if="${error}" th:text="${error}" style="color:red;"></span>
     <br>
 
     <label for="voivodeship">Województwo:</label>
     <select id="voivodeship" name="voivodeship" th:field="*{voivodeship}" required>
-        <option th:each="v : ${voivodeships}" th:value="${v}" th:text="${v}"></option>
+        <option th:each="v : ${voivodeships}"
+                th:value="${v}"
+                th:text="${T(com.example.first.PersonController).getPolishVoivodeshipName(v)}"></option>
     </select>
     <br>
 

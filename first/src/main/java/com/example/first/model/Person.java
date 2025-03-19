@@ -29,7 +29,12 @@ public class Person {
 
     @NotBlank(message = "PESEL jest wymagany")
     @Pattern(regexp = "\\d{11}", message = "PESEL musi składać się z 11 cyfr")
+    @Column(unique = true)
     private String peselNumber;
+
+    public String getPeselNumber() {
+        return peselNumber;
+    }
 
     @Enumerated(EnumType.STRING)
     private Voivodeship voivodeship;
@@ -37,6 +42,14 @@ public class Person {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
 }
