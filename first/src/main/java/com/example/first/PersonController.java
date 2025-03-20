@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class PersonController {
@@ -84,5 +86,23 @@ public class PersonController {
         model.addAttribute("person", new Person());
         model.addAttribute("success", "Dodano osobę");
         return "addPersonForm";
+    }
+
+    @GetMapping("/personList")
+    public String showList(Model model) {
+        List<String> distinctNames = personRepo.findDistinctFirstName();
+
+        List<List<String>> groupedNames = new ArrayList<>();
+        for(int i = 0; i < distinctNames.size(); i += 10){
+            groupedNames.add(distinctNames.subList(i, Math.min(i + 10, distinctNames.size())));
+        }
+
+        model.addAttribute("people", personRepo.findAll());
+        model.addAttribute("males", personRepo.countAllByGender(Gender.MALE));
+        model.addAttribute("females", personRepo.countAllByGender(Gender.FEMALE));
+        model.addAttribute("peopleCount", personRepo.count());
+        model.addAttribute("malesAfter50", personRepo.countAllByGenderAndBirthDateBefore(Gender.MALE, LocalDate.now().minusYears(50)));
+        model.addAttribute("distinctNames", groupedNames);
+        return "personList";
     }
 }

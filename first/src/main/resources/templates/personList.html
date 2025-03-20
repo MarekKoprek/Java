@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Person List</title>
+    <style>
+        body {
+            display: flex;
+            width: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        .section {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="section">
+    <h1>List of people</h1>
+    <br>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>pesel_number</th>
+            <th>birth_date</th>
+            <th>gender</th>
+            <th>voivodeship</th>
+        </tr>
+        <tr th:each="person : ${people}">
+            <td th:text="${person.id}"></td>
+            <td th:text="${person.firstName}"></td>
+            <td th:text="${person.lastName}"></td>
+            <td th:text="${person.peselNumber}"></td>
+            <td th:text="${person.birthDate}"></td>
+            <td th:text="${person.gender}"></td>
+            <td th:text="${person.voivodeship}"></td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h1>Stats</h1>
+    <br>
+    <table>
+        <tr>
+            <th>MALE</th>
+            <th>FEMALE</th>
+            <th>total</th>
+            <th>MALE 50+</th>
+        </tr>
+        <tr>
+            <td th:text="${males}"></td>
+            <td th:text="${females}"></td>
+            <td th:text="${peopleCount}"></td>
+            <td th:text="${malesAfter50}"></td>
+        </tr>
+    </table>
+
+    <h1>Unique Names</h1>
+    <br>
+    <table>
+        <tr th:each="row : ${distinctNames}">
+            <td th:each="name : ${row}" th:text="${name}"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
